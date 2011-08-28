@@ -1,0 +1,79 @@
+from magnet_api import *
+
+BOT_HOME = '/home/magnet/magnet2/'
+DATA_PATH = BOT_HOME + 'db/'
+LOG_PATH = BOT_HOME + 'log/'
+
+GOOGLE_KEY = '' #'&key=ABCDEF'
+
+configuration1 = {
+  'jid': 'magnet@localhost/Bot',
+  'password': 'ABCDEF',
+  'avatar_hash': '', # sha1 of image
+  'log_level': 3, # 1 = error, 2 = warn, 3 = info, 4 = debug
+  'echo_log': True,
+  'info_file': '_magnet2info.txt',
+  'error_file': '_magnet2error.txt',
+  'unload_plugin_on_error': True,
+  'commands_level_overrides': {},
+  'commands_pm_only': [],
+  'commands_disabled': [],
+  'command_prefix': '!',
+  'bot_owners': [
+    'admin@localhost',
+    'admin2@localhost',
+  ],
+  'nick': 'Magnet',
+  'db_prefix': '',
+  'mucs': {
+    'main@muc.localhost': {
+      'options': [
+        'timebomb',
+        'simple_fun',
+        'status',
+        'rpg',
+        'say',
+        'google',
+        'ping',
+        'quote',
+        'seen',
+      ],
+      'commands_level_overrides': {
+        'setnick': LEVEL_OWNER,
+        'setstatus': LEVEL_OWNER,
+      },
+      'commands_level_overrides': {},
+      'commands_pm_only': ['image'],
+      'commands_disabled': [],
+    },
+    'add@muc.localhost': {
+      'nick': 'Bot',
+      'db_prefix': 'add',
+      'options': [
+        'google',
+        'seen',
+      ],
+    },
+  },
+  'plugins': [
+    #'xml_log',
+    'logger',
+    'youtube',
+    'user_limits',
+    'command_simple_fun',
+    'command_google',
+    'command_ping',
+    'command_alias',
+    'command_users',
+    'command_admin',
+    'command_knowledge',
+    'command_ghost',
+    'command_timebomb',
+    'command_quote',
+    'command_seen',
+    'command_ignore',
+    'command_akick',
+    'command_addmod',
+    'command_cleanup',
+  ]
+}

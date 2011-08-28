@@ -1,0 +1,2 @@
+Magnet 2.0 [28 Aug 2011]
+- Bot rewritten from scratch

@@ -1,0 +1,40 @@
+Magnet2
+Python XMPP MUC entertainment, informational and administration bot
+Copyright (c) 2011  Grom PE
+
+License: GPLv3
+
+
+Plugins/command list
+====================
+Core: quit, setnick, setstatus, eval, exec, option, options, list, access
+Simple fun: slap, gift, poke, stab, hug, status, roll, flip, say, act, glomp, transform
+Google: google (g), calc, translate (tr), image
+Ping: ping (with queue so users won't eat each others' ping)
+Alias: alias, aliases, delalias (aliases are per room)
+Users: users
+Logger: logging, PM log
+Admin: kick, ban, devoice, voice, member, delmember
+Youtube: identify youtube links (handle youtu.be and parameter &v=)
+Knowledge: remember, forget, help, what, show
+(definitions will also work as !<definition>, i.e. !cake)
+Ghost: ghost (members can kick their own clone)
+User limits: long nick kick, caps kick, flood control, kick on huge message
+Timebomb: timebomb, cutwire, defuse
+Per-room command PM only reply setting, per-room command disabling
+Quote: quote, delquote, addquote
+Seen: seen
+Ignore: ignore, unignore, ignored
+Autokick: akick, delakick, akicked
+Addmod: addmod, delmod, mods
+Cleanup: cleanup
+
+
+Setup
+=====
+- Grab xmpppy library and put in Magnet2 directory
+- Grab simplejson library and put in Magnet2 directory (req. for google plugin)
+- Make a copy of the file "magnet_config.py.example" as "magnet_config.py"
+- Change the configuration file "magnet_config.py"
+- Create two empty directories for logs and for databases
+- Run "magnet2.py"
