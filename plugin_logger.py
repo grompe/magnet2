@@ -33,7 +33,8 @@ def event_room_message(bot, (message, room, nick)):
       res = '*** %s has set the topic to:\n%s'%(nick, subject)
     if res: bot.writelog(room+'.txt', res)
   elif message.getType() == 'chat' and not bot.is_bot_owner(room, nick):
-    bot.writelog('_pmlog.txt', '<%s/%s> %s'%(room, nick, text));
+    if text:
+      bot.writelog('_pmlog.txt', '<%s/%s> %s'%(room, nick, text));
 
 def event_nick_changed(bot, (presence, room, nick, newnick)):
   bot.writelog(room+'.txt', '*** %s is now known as %s'%(nick, newnick))
@@ -112,4 +113,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Logger plugin v1.0'
+  return 'Logger plugin v1.0.1'
