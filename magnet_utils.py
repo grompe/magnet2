@@ -110,5 +110,9 @@ def separate_target_reason(bot, room, parameters):
         break
   return (target, reason)
 
+def force_directory(dirname):
+  if not os.path.exists(dirname): 
+    os.makedirs(dirname, 0755)
+
 if __name__ == "__main__":
   pass

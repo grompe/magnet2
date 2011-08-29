@@ -84,6 +84,9 @@ class Magnet2Bot(object):
 
     self.event_unhandled_command = Event()
     
+    force_directory(DATA_PATH)
+    force_directory(LOG_PATH)
+    
     self.commands = {}
     #self.add_command('crash', self.command_crash, LEVEL_BOT_OWNER)
     self.add_command('quit', self.command_quit, LEVEL_BOT_OWNER)

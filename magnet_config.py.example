@@ -1,6 +1,7 @@
+import os
 from magnet_api import *
 
-BOT_HOME = '/home/magnet/magnet2/'
+BOT_HOME = os.path.dirname(__file__) + "/"
 DATA_PATH = BOT_HOME + 'db/'
 LOG_PATH = BOT_HOME + 'log/'
 
