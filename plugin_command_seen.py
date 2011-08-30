@@ -61,7 +61,7 @@ def addseen(bot, room, nick, jid, typ, data=None):
 
 def event_room_message(bot, (message, room, nick)):
   text = message.getBody()
-  if message.getType() == 'groupchat' and text:
+  if message.getType() == 'groupchat' and text and nick:
     addseen(bot, room, nick, bot.roster[room][nick][ROSTER_JID], 'message', text)
 
 def event_nick_changed(bot, (presence, room, nick, newnick)):
