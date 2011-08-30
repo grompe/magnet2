@@ -61,7 +61,7 @@ def addseen(bot, room, nick, jid, typ, data=None):
 
 def event_room_message(bot, (message, room, nick)):
   text = message.getBody()
-  if message.getType() == 'groupchat' and text and nick:
+  if message.getType() == 'groupchat' and text and nick in bot.roster[room]:
     addseen(bot, room, nick, bot.roster[room][nick][ROSTER_JID], 'message', text)
 
 def event_nick_changed(bot, (presence, room, nick, newnick)):
@@ -174,4 +174,4 @@ def unload(bot):
   bot.save_database('seen', seen_db)
 
 def info(bot):
-  return 'Seen plugin v1.0'
+  return 'Seen plugin v1.0.1'
