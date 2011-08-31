@@ -66,7 +66,7 @@ def event_removed_by_shutdown(bot, (presence, room, nick, jid)):
 def event_left(bot, (presence, room, nick, jid)):
   jid = jid and ' (%s)'%(jid)
   status = presence.getTagData('status')
-  status = status and ' (%s)'%(status)
+  status = status and ' (%s)'%(status) or ''
   bot.writelog(room+'.txt', '*** %s%s has left the room%s'%(nick, jid, status))
 
 aff1 = {
@@ -113,4 +113,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Logger plugin v1.0.1'
+  return 'Logger plugin v1.0.2'
