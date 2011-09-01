@@ -56,8 +56,8 @@ def addseen(bot, room, nick, jid, typ, data=None):
     'type': typ,
     'data': data,
     'nick': orignick,
-    'jid': jid
   })
+  if jid: seen_db[room][nick].update({'jid': jid})
 
 def event_room_message(bot, (message, room, nick)):
   text = message.getBody()
@@ -67,20 +67,20 @@ def event_room_message(bot, (message, room, nick)):
 def event_nick_changed(bot, (presence, room, nick, newnick)):
   addseen(bot, room, nick, bot.roster[room][nick][ROSTER_JID], 'nick', newnick)
 
-def event_kicked(bot, (presence, room, nick, jid, actor, reason)):
-  addseen(bot, room, nick, jid, 'kick', reason)
+def event_kicked(bot, (presence, room, nick, actor, reason)):
+  addseen(bot, room, nick, None, 'kick', reason)
 
 def event_banned(bot, (presence, room, nick, jid, actor, reason)):
-  addseen(bot, room, nick, jid, 'ban', reason)
+  addseen(bot, room, nick, None, 'ban', reason)
 
-def event_removed_by_affiliation(bot, (presence, room, nick, jid)):
-  addseen(bot, room, nick, jid, 'kick')
+def event_removed_by_affiliation(bot, (presence, room, nick)):
+  addseen(bot, room, nick, None, 'kick')
 
-def event_removed_by_membersonly(bot, (presence, room, nick, jid)):
-  addseen(bot, room, nick, jid, 'kick')
+def event_removed_by_membersonly(bot, (presence, room, nick)):
+  addseen(bot, room, nick, None, 'kick')
 
-def event_removed_by_shutdown(bot, (presence, room, nick, jid)):
-  addseen(bot, room, nick, jid, 'quit', 'User has been removed from the room due to service shutdown.')
+def event_removed_by_shutdown(bot, (presence, room, nick)):
+  addseen(bot, room, nick, None, 'quit', 'User has been removed from the room due to service shutdown.')
 
 def event_left(bot, (presence, room, nick, jid)):
   addseen(bot, room, nick, jid, 'quit', presence.getTagData('status'))
@@ -174,4 +174,4 @@ def unload(bot):
   bot.save_database('seen', seen_db)
 
 def info(bot):
-  return 'Seen plugin v1.0.1'
+  return 'Seen plugin v1.0.2'

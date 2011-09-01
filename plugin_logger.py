@@ -39,32 +39,28 @@ def event_room_message(bot, (message, room, nick)):
 def event_nick_changed(bot, (presence, room, nick, newnick)):
   bot.writelog(room+'.txt', '*** %s is now known as %s'%(nick, newnick))
 
-def event_kicked(bot, (presence, room, nick, jid, actor, reason)):
-  actor = actor and ' by %s'%(actor)
-  reason = reason and ' (%s)'%(reason)
-  jid = jid and ' (%s)'%(jid)
-  bot.writelog(room+'.txt', '*** %s%s has been kicked%s%s'%(nick, jid, actor, reason))
+def event_kicked(bot, (presence, room, nick, actor, reason)):
+  actor = actor and ' by %s'%(actor) or ''
+  reason = reason and ' (%s)'%(reason) or ''
+  bot.writelog(room+'.txt', '*** %s has been kicked%s%s'%(nick, actor, reason))
+  "None has been"
 
-def event_banned(bot, (presence, room, nick, jid, actor, reason)):
-  actor = actor and ' by %s'%(actor)
-  reason = reason and ' (%s)'%(reason)
-  jid = jid and ' (%s)'%(jid)
-  bot.writelog(room+'.txt', '*** %s%s has been banned%s%s'%(nick, jid, actor, reason))
+def event_banned(bot, (presence, room, nick, actor, reason)):
+  actor = actor and ' by %s'%(actor) or ''
+  reason = reason and ' (%s)'%(reason) or ''
+  bot.writelog(room+'.txt', '*** %s has been banned%s%s'%(nick, actor, reason))
 
-def event_removed_by_affiliation(bot, (presence, room, nick, jid)):
-  jid = jid and ' (%s)'%(jid)
-  bot.writelog(room+'.txt', '*** %s%s has been removed from the room due to an affilliation change'%(nick, jid))
+def event_removed_by_affiliation(bot, (presence, room, nick)):
+  bot.writelog(room+'.txt', '*** %s has been removed from the room due to an affilliation change'%(nick))
 
-def event_removed_by_membersonly(bot, (presence, room, nick, jid)):
-  jid = jid and ' (%s)'%(jid)
-  bot.writelog(room+'.txt', '*** %s%s has been removed from the room because the room was made members-only'%(nick, jid))
+def event_removed_by_membersonly(bot, (presence, room, nick)):
+  bot.writelog(room+'.txt', '*** %s has been removed from the room because the room was made members-only'%(nick))
 
-def event_removed_by_shutdown(bot, (presence, room, nick, jid)):
-  jid = jid and ' (%s)'%(jid)
-  bot.writelog(room+'.txt', '*** %s%s has been removed from the room due to service shutdown'%(nick, jid))
+def event_removed_by_shutdown(bot, (presence, room, nick)):
+  bot.writelog(room+'.txt', '*** %s has been removed from the room due to service shutdown'%(nick))
 
 def event_left(bot, (presence, room, nick, jid)):
-  jid = jid and ' (%s)'%(jid)
+  jid = jid and ' (%s)'%(jid) or ''
   status = presence.getTagData('status')
   status = status and ' (%s)'%(status) or ''
   bot.writelog(room+'.txt', '*** %s%s has left the room%s'%(nick, jid, status))
@@ -93,17 +89,17 @@ def event_role_changed(bot, (presence, room, nick, jid, role)):
   bot.writelog(room+'.txt', '*** %s is now a %s'%(nick, role))
 
 def event_status_changed(bot, (presence, room, nick, jid, status, status_text)):
-  status_text = status_text and ' (%s)'%(status_text)
+  status_text = status_text and ' (%s)'%(status_text) or ''
   bot.writelog(room+'.txt', '*** %s is now %s%s'%(nick, status, status_text))
 
 def event_joined(bot, (presence, room, nick, jid, role, affiliation, status, status_text)):
-  jid = jid and ' (%s)'%(jid)
-  status_text = status_text and ' (%s)'%(status_text)
+  jid = jid and ' (%s)'%(jid) or ''
+  status_text = status_text and ' (%s)'%(status_text) or ''
   bot.writelog(room+'.txt', '*** %s%s has joined the room as a %s%s and now is %s%s'%(nick, jid, role, aff1.get(affiliation, affiliation), status, status_text))
 
 def event_room_roster(bot, (presence, room, nick, jid, role, affiliation, status, status_text)):
-  jid = jid and ' (%s)'%(jid)
-  status_text = status_text and ' (%s)'%(status_text)
+  jid = jid and ' (%s)'%(jid) or ''
+  status_text = status_text and ' (%s)'%(status_text) or ''
   bot.writelog(room+'.txt', '^^^ %s%s has joined the room as a %s%s and now is %s%s'%(nick, jid, role, aff1.get(affiliation, affiliation), status, status_text))
 
 def load(bot):
@@ -113,4 +109,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Logger plugin v1.0.2'
+  return 'Logger plugin v1.0.3'

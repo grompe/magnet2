@@ -51,7 +51,7 @@ access_level_string = {
 class Magnet2Bot(object):
 
   def __init__(self, configuration):
-    self.version = '2.0'
+    self.version = '2.0.1'
     self.configuration = {}
     self.timed_events = TimedEvent()
     self.roster = {}
@@ -473,15 +473,15 @@ class Magnet2Bot(object):
           self.roster[room][newnick] = self.roster[room][nick]
           self.event_nick_changed(self, (presence, room, nick, newnick))
         elif '307' in status_codes:
-          self.event_kicked(self, (presence, room, nick, jid, actor, reason))
+          self.event_kicked(self, (presence, room, nick, actor, reason))
         elif '301' in status_codes:
-          self.event_banned(self, (presence, room, nick, jid, actor, reason))
+          self.event_banned(self, (presence, room, nick, actor, reason))
         elif '321' in status_codes:
-          self.event_removed_by_affiliation(self, (presence, room, nick, jid))
+          self.event_removed_by_affiliation(self, (presence, room, nick))
         elif '322' in status_codes:
-          self.event_removed_by_membersonly(self, (presence, room, nick, jid))
+          self.event_removed_by_membersonly(self, (presence, room, nick))
         elif '332' in status_codes:
-          self.event_removed_by_shutdown(self, (presence, room, nick, jid))
+          self.event_removed_by_shutdown(self, (presence, room, nick))
         else:
           self.event_left(self, (presence, room, nick, jid))
         del self.roster[room][nick]
