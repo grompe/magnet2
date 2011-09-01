@@ -36,5 +36,4 @@ Setup
 - Grab simplejson library and put in Magnet2 directory (req. for google plugin)
 - Make a copy of the file "magnet_config.py.example" as "magnet_config.py"
 - Change the configuration file "magnet_config.py"
-- Create two empty directories for logs and for databases
 - Run "magnet2.py"

@@ -1,9 +1,11 @@
-Magnet 2.0.1 [30 Aug 2011]
+Magnet 2.0.1 [01 Sep 2011]
 - Prevent logging empty PM messages
 - More YouTube links variety identification
 - Fixed seen plugin crashing when receiving the room topic on ejabberd
 - Added DNS plugin
 - Logger plugin: corrected quit message
+- Added matchreply plugin
+- Removed JID from kicked/banned/removed events and plugins - not transmitted
 
 Magnet 2.0 [28 Aug 2011]
 - Bot rewritten from scratch

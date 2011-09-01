@@ -202,7 +202,6 @@ def command_status(bot, room, nick, access_level, parameters, message):
   if pos=='admin': pos='an admin'
   if pos=='owner': pos='an owner'
   if role=='visitor': pos='speechless'
-  if nick=='Omegle': pos='a stranger'
 
   # use per hour randomization to prevent overuse
   hashname = md5.new('%s%d'%(jid or target, time.time()//3600)).hexdigest()

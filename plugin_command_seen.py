@@ -70,7 +70,7 @@ def event_nick_changed(bot, (presence, room, nick, newnick)):
 def event_kicked(bot, (presence, room, nick, actor, reason)):
   addseen(bot, room, nick, None, 'kick', reason)
 
-def event_banned(bot, (presence, room, nick, jid, actor, reason)):
+def event_banned(bot, (presence, room, nick, actor, reason)):
   addseen(bot, room, nick, None, 'ban', reason)
 
 def event_removed_by_affiliation(bot, (presence, room, nick)):
