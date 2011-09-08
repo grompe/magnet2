@@ -15,7 +15,7 @@
 #  You should have received a copy of the GNU General Public License
 #  along with Magnet2.  If not, see <http://www.gnu.org/licenses/>.
 #
-import urllib, urllib2, simplejson, re
+import urllib, urllib2, json, re
 from magnet_utils import *
 from magnet_api import *
 from magnet_config import GOOGLE_KEY
@@ -27,8 +27,8 @@ def googlesearch(query, num=0):
     urllib.quote_plus(query.encode('utf-8'))
   )
   rec = urllib2.urlopen(url)
-  json = simplejson.loads(rec.read())
-  results = json['responseData']['results']
+  js = json.loads(rec.read())
+  results = js['responseData']['results']
   if len(results)>num:
     r = results[num]
     #reg = re.compile('<b>([^<]+)</b>', re.IGNORECASE)
@@ -67,12 +67,12 @@ def googletranslate(langpair, text):
     urllib.quote_plus(text.encode('utf-8'))
   )
   rec = urllib2.urlopen(url)
-  json = simplejson.loads(rec.read())
-  rd = json['responseData']
+  js = json.loads(rec.read())
+  rd = js['responseData']
   if rd:
     return unhtml(rd['translatedText'])
   else:
-    return json['responseDetails']
+    return js['responseDetails']
 
 def googleimagesearch(query):
   url = 'http://ajax.googleapis.com/ajax/services/search/images?v=1.0%s&safe=active&q=%s'%(
@@ -80,8 +80,8 @@ def googleimagesearch(query):
     urllib.quote_plus(query.encode('utf-8'))
   )
   rec = urllib2.urlopen(url)
-  json = simplejson.loads(rec.read())
-  results = json['responseData']['results']
+  js = json.loads(rec.read())
+  results = js['responseData']['results']
   if len(results)>0:
     return results[0]['unescapedUrl']
   else:
