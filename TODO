@@ -1,0 +1,60 @@
+Todo
+====
+- save and load per-room options
+  - hash the scripted options and store the hash,
+    if hash mismatches what was loaded, don't apply the loaded version
+- search through all plugins to make use of options
+  - make plugins announce used options, tell whether option is known in core in !option
+- make knowledge db accept unicode terms for some rooms
+- short description for every command
+- ensure it doesn't crash without admin privileges
+- allow to join/leave rooms by bot owner request
+- ensure it works on ejabberd, openfire, tigase
+- add reasons for role/affiliation changes
+- clarify "!what blah blah" to not to create impression spaces are supported
+  or instead allow creating definitions as Magnet, a = b
+- disable showing definitions to a person with unhandled emulated command syntax
+- prevent nick changes for @gmail.com users
+- merge database operations from plugins to Magnet API
+- !version [target] showing user client version
+- pisg-like stats!
+  Count online record too, total number of messages, actions, commands,
+  show time when the record started, time spent in the chat, etc
+
+
+More ideas and suggestions
+==========================
+- Prevent caps kick backfiring when referring to caps nickname:
+  "OMFGUSERNAME: hi"
+- extend matchreply
+  - matchkick to kick on regexp message match
+  - (maybe) matchcounter to increment a counter then do action on counter limit
+- maybe don't tell about added autokick if akicked was in the room,
+  same for added automod
+- !tell, !untell
+  if it's executed in groupchat, send in groupchat, if in PM, send in PM.
+  - Well some sort of list of all the tells you have currently sent
+  - But a list of whom you've even 'told' would be nice too
+
+- !botsnack?
+- if user overuses commands, lock him for a few minutes
+
+- make proper daemon process
+
+- unicode filter, such as, telling the user to use English if too many non-English chars detected
+
+- stats on databases (i.e. size, number of definitions)
+
+- !timer <seconds> <reason> - reminder
+
+- making Magnet identify all links, not only Youtube ones?
+  For example, tell link title, format, size.
+  <user posts a pic>
+  <Magnet> user's link: 200 kb, PNG, 1024x768
+
+- !achievement "So and so got so and so" +10g, it will be placed on a tally
+  and with the command !achievements they can see what they've got in total
+  and who has the most at the moment
+
+- add jid or nick or regexp to watch list (assign ID to it and remove by ID)
+  with a separate file for logging each watched item
