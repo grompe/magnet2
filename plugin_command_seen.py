@@ -131,7 +131,7 @@ def command_seen(bot, room, nick, access_level, parameters, message):
   else:
     if typ == 'join':
       res = '%s has joined with status %s %s ago.'%(orignick, data[0], ago)
-    if typ =='status':
+    elif typ =='status':
       res = '%s has changed status to %s %s ago.'%(orignick, data[0], ago)
     elif typ =='message':
       res = '%s has responded %s ago.'%(orignick, ago)
@@ -174,4 +174,4 @@ def unload(bot):
   bot.save_database('seen', seen_db)
 
 def info(bot):
-  return 'Seen plugin v1.0.3'
+  return 'Seen plugin v1.0.4'
