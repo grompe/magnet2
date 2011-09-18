@@ -29,7 +29,7 @@ def command_ghost(bot, room, nick, access_level, parameters, message):
   jid1 = bot.roster[room][nick][ROSTER_JID]
   jid1 = jid1 or xmpp.JID(jid1).getStripped().lower()
   jid2 = bot.roster[room][target][ROSTER_JID]
-  jid2 = jid2 or xmpp.JID(jid1).getStripped().lower()
+  jid2 = jid2 or xmpp.JID(jid2).getStripped().lower()
   if jid1 == None or jid1 != jid2:
     return 'Access denied.'
     
@@ -45,4 +45,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Ghost plugin v1.0'
+  return 'Ghost plugin v1.0.1'
