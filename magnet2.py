@@ -19,7 +19,7 @@
 #  along with Magnet2.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import xmpp, time, os, sys, socket, traceback
+import xmpp, time, os, sys, socket, traceback, platform
 from magnet_api import *
 from magnet_utils import *
 from magnet_config import *
@@ -51,8 +51,8 @@ access_level_string = {
 class Magnet2Bot(object):
 
   def __init__(self, configuration):
-    self.version = '2.0.1'
-    self.configuration = {}
+    self.version = '2.0.2'
+    self.platform = configuration.get('hide_platform', False) and 'Unknown' or platform.platform()
     self.timed_events = TimedEvent()
     self.roster = {}
     self.joined_rooms = []
@@ -129,6 +129,7 @@ class Magnet2Bot(object):
             self.client.reconnectAndReauth()
             self.join_rooms()
       except:
+        self.log_error('Crashed!\n%s'%(traceback.format_exc()))
         self.shutdown("Crashed!")
 
   def timer_keepalive(self, sender, arg):
@@ -276,7 +277,7 @@ class Magnet2Bot(object):
       status=status
     )
     c = p.setTag('c', namespace = xmpp.NS_CAPS)
-    c.setAttr('node', 'magnet2.py and not japyt')
+    c.setAttr('node', 'magnet2.py')
     c.setAttr('ver', self.version)
     avatar_hash = self.configuration['avatar_hash']
     if avatar_hash:
@@ -452,6 +453,14 @@ class Magnet2Bot(object):
     if not room in self.configuration['mucs']:
       self.log_debug('Unexpected iq from %s: %s'%(jid, iq))
       return
+    if iq.getQueryNS() == xmpp.NS_VERSION:
+      reply_iq = xmpp.Iq('result', None, {'id': iq.getID()}, '%s/%s'%(room, nick))
+      reply_query = reply_iq.setTag('query', namespace=xmpp.NS_VERSION)
+      reply_query.setTagData('name', 'Magnet')
+      reply_query.setTagData('version', self.version)
+      reply_query.setTagData('os', self.platform)
+      self.client.send(reply_iq)
+      raise xmpp.NodeProcessed
     self.event_room_iq(self, (iq, room, nick))
 
   def handle_user_presence(self, presence, user_x, room, nick):

@@ -1,3 +1,13 @@
+Magnet 2.0.2 [27 Sep 2011]
+- Get rid of simplejson dependency, use json that comes with Python 2.6
+- Seen plugin: fix crash on looking up join
+- Seen plugin: correct looking up join
+- Fixed Ghost plugin
+- Logger plugin: add bare room message handling and correct subject change
+- Reply to iq version requests
+- Log core crashes
+- Changed presence node to "magnet2.py"
+
 Magnet 2.0.1 [01 Sep 2011]
 - Prevent logging empty PM messages
 - More YouTube links variety identification
