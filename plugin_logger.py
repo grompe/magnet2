@@ -24,13 +24,16 @@ def event_room_message(bot, (message, room, nick)):
   subject = message.getSubject()
   if message.getType() == 'groupchat':
     res = ''
-    if text:
-      if text[:4]=='/me ':
-        res = '* %s %s'%(nick, text[4:])
-      else:
-        res = '<%s> %s'%(nick, text)
-    elif subject:
-      res = '*** %s has set the topic to:\n%s'%(nick, subject)
+    if nick:
+      if text:
+        if text[:4]=='/me ':
+          res = '* %s %s'%(nick, text[4:])
+        else:
+          res = '<%s> %s'%(nick, text)
+      elif subject:
+        res = '*** %s has set the topic to:\n%s'%(nick, subject)
+    else:
+      res = '*** %s'%(text)
     if res: bot.writelog(room+'.txt', res)
   elif message.getType() == 'chat' and not bot.is_bot_owner(room, nick):
     if text:
@@ -109,4 +112,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Logger plugin v1.0.3'
+  return 'Logger plugin v1.0.4'
