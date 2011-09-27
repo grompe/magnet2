@@ -165,13 +165,29 @@ def command_seen(bot, room, nick, access_level, parameters, message):
 
   return res
 
+def command_seenjid(bot, room, nick, access_level, parameters, message):
+  if not parameters: return 'Expected JID to look for.'
+  look_jid = parameters
+  if not '@' in look_jid: return 'Expected JID in form of user@host.'
+  look_jid = look_jid.lower()
+  if not room in seen_db or len(seen_db[room]) == 0:
+    return 'The seen database is empty.'
+  found = []
+  for look_nick in seen_db[room]:
+    if seen_db[room][look_nick].get('jid', None) == look_jid:
+      found.append(look_nick)
+  if len(found) == 0:
+    return "I don't remember seeing anyone with JID %s."%(look_jid)
+  return 'These nicks were seen with JID %s: %s'%(look_jid, ', '.join(found))
+
 def load(bot):
   global seen_db
   seen_db = bot.load_database('seen') or {}
   bot.add_command('seen', command_seen, LEVEL_GUEST, 'seen')
+  bot.add_command('seenjid', command_seenjid, LEVEL_ADMIN, 'seenjid')
 
 def unload(bot):
   bot.save_database('seen', seen_db)
 
 def info(bot):
-  return 'Seen plugin v1.0.4'
+  return 'Seen plugin v1.0.5'
