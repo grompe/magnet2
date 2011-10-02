@@ -74,7 +74,7 @@ rndobjects = [
   "a random tv show", "a picknick table", "a ping pong table", "a techno DJ",
   "a lobster, three onions, seven pencils, and a chewed up roll of 'Fruit by the Foot'",
   "chicken legs", "two pitchforks", "Nebraska", "a .torrent of Darkwing Duck",
-  "America's Next Top Model", "a 52 inch plasma monitor", "sugar", "an oven mit",
+  "America's Next Top Model", "a 52 inch plasma monitor", "sugar", "an oven mitt",
   "a fax machine", "four tennis racquets tied together to form a pyramid",
   "3 coupons and 2 AAA batteries", "a clown shoe", "a POS graphics card",
   "random prescription medicine", "three muffins and two slices of toast",
@@ -204,7 +204,8 @@ def command_status(bot, room, nick, access_level, parameters, message):
   if role=='visitor': pos='speechless'
 
   # use per hour randomization to prevent overuse
-  hashname = md5.new('%s%d'%(jid or target, time.time()//3600)).hexdigest()
+  initstring = jid or target
+  hashname = md5.new('%s%d'%(initstring.encode('utf-8'), time.time()//3600)).hexdigest()
   hashnum = 0
   for c in hashname: hashnum += ord(c)
   desc = rnddesc[hashnum % len(rnddesc)]
@@ -275,4 +276,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Simple fun plugin v1.0'
+  return 'Simple fun plugin v1.0.1'
