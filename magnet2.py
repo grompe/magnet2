@@ -61,6 +61,7 @@ class Magnet2Bot(object):
     self.plugin_commands = {'__main__': []}
     self.configuration = configuration 
     self.auth_success = False
+    self.shutting_down = False
 
     # general events
     self.event_room_presence = Event()
@@ -129,8 +130,9 @@ class Magnet2Bot(object):
             self.client.reconnectAndReauth()
             self.join_rooms()
       except:
-        self.log_error('Crashed!\n%s'%(traceback.format_exc()))
-        self.shutdown("Crashed!")
+        if not self.shutting_down:
+          self.log_error('Crashed!\n%s'%(traceback.format_exc()))
+          self.shutdown("Crashed!")
 
   def timer_keepalive(self, sender, arg):
     self.client.send(' ')
@@ -436,7 +438,7 @@ class Magnet2Bot(object):
         elif code == '407':
           self.log_warn('Cannot join room %s: not in member list'%(room))
         elif code == '409':
-          if self.self_nick[room] == self.configuration['mucs'][room]['nick']:
+          if self.self_nick[room] == self.get_config(room, 'nick'):
             # try to rejoin with nick_ once
             self.join_room(room, self.self_nick[room]+'_')
           else:
@@ -617,6 +619,8 @@ class Magnet2Bot(object):
     return ''
 
   def shutdown(self, quit_message="Owner said goodbye!"):
+    if self.shutting_down: return
+    self.shutting_down = True
     self.log_info('Shutting down...')
     self.unload_plugins()
     for room in self.joined_rooms:
