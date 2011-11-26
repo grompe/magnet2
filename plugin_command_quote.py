@@ -62,7 +62,7 @@ def command_quote(bot, room, nick, access_level, parameters, message):
     return "There's no quote #%d, and there is total of %d quotes."%(number, len(quote_db[room]))
 
   res = 'Quote #%d: %s'%(number, existent_quote['quote'])
-  if message.getType() == 'chat' and access_level >= LEVEL_ADMIN:
+  if message.getType() != 'groupchat' and access_level >= LEVEL_ADMIN:
     t = timeformat(time.time()-existent_quote['time'])
     res = '%s\n(added by %s %s ago)'%(res, existent_quote['jid'], t)
   
@@ -116,4 +116,4 @@ def unload(bot):
   bot.save_database('quote', quote_db)
 
 def info(bot):
-  return 'Quote plugin v1.0'
+  return 'Quote plugin v1.0.1'

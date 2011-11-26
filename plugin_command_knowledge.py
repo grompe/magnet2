@@ -66,7 +66,7 @@ def command_what(bot, room, nick, access_level, parameters, message):
   if not parameters: return 'What term to look up?'
   term = parameters
   mode = 'what'
-  if message.getType() == 'chat': mode = 'help'
+  if message.getType() != 'groupchat': mode = 'help'
   
   (success, result) = gettermtext(bot, room, nick, term, mode, access_level)
   if not success: return result
@@ -174,4 +174,4 @@ def unload(bot):
   bot.save_database('knowledge', knowledge_db)
 
 def info(bot):
-  return 'Knowledge plugin v1.0'
+  return 'Knowledge plugin v1.0.1'

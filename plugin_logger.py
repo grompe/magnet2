@@ -35,7 +35,7 @@ def event_room_message(bot, (message, room, nick)):
     else:
       res = '*** %s'%(text)
     if res: bot.writelog(room+'.txt', res)
-  elif message.getType() == 'chat' and not bot.is_bot_owner(room, nick):
+  elif message.getType() != 'groupchat' and not bot.is_bot_owner(room, nick):
     if text:
       bot.writelog('_pmlog.txt', '<%s/%s> %s'%(room, nick, text));
 
@@ -112,4 +112,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Logger plugin v1.0.4'
+  return 'Logger plugin v1.0.5'

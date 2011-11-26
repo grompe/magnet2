@@ -331,7 +331,7 @@ class Magnet2Bot(object):
     command = ''
     prefix = self.get_config(room, 'command_prefix')
     if cut and cut[0] == prefix: command = cut[1:]
-    elif message.getType() == 'chat': command = cut
+    elif message.getType() != 'groupchat': command = cut
     if rest and cut == self.self_nick[room]+':' or cut == self.self_nick[room]+',':
       s = rest.split(' ', 1)
       cut = s[0]
@@ -600,7 +600,7 @@ class Magnet2Bot(object):
     return result
   
   def command_access(self, room, nick, access_level, parameters, message):
-    if message.getType() == 'chat':
+    if message.getType() != 'groupchat':
       nick = 'Your'
     return '%s access level: %s.'%(nick, access_level_string[access_level])
 

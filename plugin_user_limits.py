@@ -39,7 +39,7 @@ def check_flood_control(bot, room, nick, text, typ):
     elif len(text) < 4: fc += 2
     elif len(text) < 2: fc += 3
   reason = 'No flooding! Write your sentences in less posts.'
-  if typ == 'chat':
+  if typ != 'groupchat':
     reason = 'No PM flooding the bot!'
   fclimit = 8
   if fc > fclimit:

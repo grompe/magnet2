@@ -146,7 +146,7 @@ def command_seen(bot, room, nick, access_level, parameters, message):
     else:
       res = '%s did something unknown %s ago.'%(orignick, ago)
 
-  if message.getType() == 'chat':
+  if message.getType() != 'groupchat':
     if access_level >= LEVEL_MEMBER:
       if 'message' in seen_db[room][seennick]:
         text = seen_db[room][seennick]['message']
@@ -190,4 +190,4 @@ def unload(bot):
   bot.save_database('seen', seen_db)
 
 def info(bot):
-  return 'Seen plugin v1.0.5'
+  return 'Seen plugin v1.0.6'
