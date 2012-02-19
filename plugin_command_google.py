@@ -59,21 +59,6 @@ def googlecalc(query):
     return res
   return 'Something bad happened.'
 
-def googletranslate(langpair, text):
-  if langpair.find('|') == -1: langpair = '|'+langpair
-  url = 'http://ajax.googleapis.com/ajax/services/language/translate?v=1.0%s&langpair=%s&q=%s'%(
-    GOOGLE_KEY,
-    urllib.quote_plus(langpair.encode('utf-8')),
-    urllib.quote_plus(text.encode('utf-8'))
-  )
-  rec = urllib2.urlopen(url)
-  js = json.loads(rec.read())
-  rd = js['responseData']
-  if rd:
-    return unhtml(rd['translatedText'])
-  else:
-    return js['responseDetails']
-
 def googleimagesearch(query):
   url = 'http://ajax.googleapis.com/ajax/services/search/images?v=1.0%s&safe=active&q=%s'%(
     GOOGLE_KEY,
@@ -105,26 +90,45 @@ def command_calc(bot, room, nick, access_level, parameters, message):
   except: res = 'An error occured.'
   return res
 
+LANGCODES = [
+  'af','sq','ar','hy','az','eu','be','bn','bg','ca','hr','cs','da',
+  'nl','en','et','tl','fi','fr','gl','ka','de','el','gu','ht','iw',
+  'hi','hu','is','id','ga','it','ja','kn','ko','la','lv','lt','mk',
+  'ms','mt','no','fa','pl','pt','ro','ru','sr','sk','sl','es','sw',
+  'sv','ta','te','th','tr','uk','ur','vi','cy','yi','zh-CN','zh-TW'
+]
+
 def command_translate(bot, room, nick, access_level, parameters, message):
-  try: (langpair, text) = parameters.split(' ', 1)
-  except: return "Expected parameters: <langpair> <text>"
-  try:
-    res = googletranslate(langpair, text)
-    if message.getType() == 'groupchat' and hasbadwords(res):
-      res = 'Something bad happened.'
-  except: res = 'An error occured.'
-  return res
+  global langreg
+  if not parameters: return 'Expected parameters: [langfrom [langto]] <text>'
+  m = langreg.match(parameters)
+  if not m: return 'An error occured.'
+  (langfrom, langto, text) = m.groups()
+  # Set first parameter to langto if only two are given
+  if langfrom and not langto: langto, langfrom = langfrom, 'auto'
+  if not langfrom: langfrom = 'auto'
+  if not langto: langto = 'en'
+  qtext = urllib.quote_plus(text.encode('utf-8'))
+  if message.getType() == 'groupchat' and len(qtext) > 400 or len(qtext) > 4000:
+    return 'For long texts go to http://translate.google.com/?sl=%s&tl=%s'%(
+      langfrom, langto)
+  return 'http://translate.google.com/?sl=%s&tl=%s&q=%s'%(
+    langfrom, langto, qtext)
 
 def load(bot):
+  global langreg
   bot.add_command('google', command_google, LEVEL_GUEST, 'google')
   bot.add_command('g', command_google, LEVEL_GUEST, 'google')
   bot.add_command('image', command_image, LEVEL_GUEST, 'google')
   bot.add_command('calc', command_calc, LEVEL_GUEST, 'google')
   bot.add_command('translate', command_translate, LEVEL_GUEST, 'google')
   bot.add_command('tr', command_translate, LEVEL_GUEST, 'google')
+  l = '|'.join(LANGCODES)
+  langreg = re.compile('(?:(%s) )?(?:(%s) )?(.+)'%(l, l), re.IGNORECASE | re.DOTALL)
 
 def unload(bot):
   pass
 
 def info(bot):
-  return 'Google plugin v1.0'
+  return 'Google plugin v1.0.1'
+  
