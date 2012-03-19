@@ -3,7 +3,7 @@
 #
 #  Magnet2
 #  Python XMPP MUC entertainment, informational and administration bot
-#  Copyright (c) 2011  Grom PE
+#  Copyright (c) 2012  Grom PE
 #
 #  Magnet2 is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ access_level_string = {
 class Magnet2Bot(object):
 
   def __init__(self, configuration):
-    self.version = '2.0.2'
+    self.version = '2.0.3'
     self.platform = configuration.get('hide_platform', False) and 'Unknown' or platform.platform()
     self.timed_events = TimedEvent()
     self.roster = {}
@@ -268,6 +268,7 @@ class Magnet2Bot(object):
     return room in self.roster and nick in self.roster[room]
 
   def is_bot_owner(self, room, nick):
+    if not self.in_roster(room, nick): return False
     jid = self.roster[room][nick][ROSTER_JID]
     if jid != None: jid = xmpp.JID(jid).getStripped().lower()
     return jid in self.configuration['bot_owners']

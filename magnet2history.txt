@@ -1,3 +1,14 @@
+Magnet 2.0.3 [20 Mar 2012]
+- Seen plugin: added seenjid command
+- Small fix if room nick is busy on join
+- Don't attempt to shut down twice
+- Simple fun plugin: fix crash with unicode JIDs
+- Ping message type fix
+- Other message type fixes
+- Added The end plugin
+- Changed translate command to give a link instead
+- Fixed is_bot_owner() for absent nicks
+
 Magnet 2.0.2 [27 Sep 2011]
 - Get rid of simplejson dependency, use json that comes with Python 2.6
 - Seen plugin: fix crash on looking up join
