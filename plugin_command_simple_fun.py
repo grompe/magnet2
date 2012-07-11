@@ -247,6 +247,20 @@ def command_roll(bot, room, nick, access_level, parameters, message):
   if len(rolls) > 1: output += '=' + str(sum(rolls))
   return output
 
+def command_tellfruit(bot, room, nick, access_level, parameters, message):
+  if parameters:
+    target = parameters
+    if not target in bot.roster[room]:
+      return 'Who is %s, anyway?'%(target)
+  else: target = nick
+  jid = bot.roster[room][target][ROSTER_JID]
+  he = jid or target
+  hashname = md5.new('Is %s a fruit or a vegetable'%(he.encode('utf-8'))).digest()
+  hashnum = 0
+  for c in hashname: hashnum += ord(c)
+  veg = ("fruit", "vegetable")[hashnum % 2]
+  return '%s is a %s.'%(target, veg)
+
 def command_flip(bot, room, nick, access_level, parameters, message):
   return nick+', '+random.choice(['Heads!', 'Tails!'])
 
@@ -267,6 +281,7 @@ def load(bot):
   bot.add_command('poke', command_poke, LEVEL_GUEST, 'simple_fun')
   bot.add_command('transform', command_transform, LEVEL_GUEST, 'simple_fun')
   bot.add_command('status', command_status, LEVEL_GUEST, 'status')
+  bot.add_command('tellfruit', command_tellfruit, LEVEL_GUEST, 'status')
   bot.add_command('roll', command_roll, LEVEL_GUEST, 'rpg')
   bot.add_command('flip', command_flip, LEVEL_GUEST, 'rpg')
   bot.add_command('say', command_say, LEVEL_ADMIN, 'say')
@@ -276,4 +291,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Simple fun plugin v1.0.1'
+  return 'Simple fun plugin v1.0.2'
