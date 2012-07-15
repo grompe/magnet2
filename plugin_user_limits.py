@@ -81,10 +81,11 @@ def event_room_roster(bot, (presence, room, nick, jid, role, affiliation, status
 def event_room_presence(bot, (presence, room, nick)):
   if nick in bot.roster[room]:
     if bot.roster[room][nick][ROSTER_ROLE] == 'moderator': return
-  status_text = presence.getTagData('status')
-  if status_text:
-    check_bad_words_kick(bot, room, nick, status_text, 'Swearing in status text.')
-  check_bad_words_kick(bot, room, nick, nick, 'Swearing in the nickname.')
+  if 'badwords_kick' in bot.get_config(room, 'options'):
+    status_text = presence.getTagData('status')
+    if status_text:
+      check_bad_words_kick(bot, room, nick, status_text, 'Swearing in status text.')
+    check_bad_words_kick(bot, room, nick, nick, 'Swearing in the nickname.')
   
 def event_room_message(bot, (message, room, nick)):
   if not nick: return
@@ -96,8 +97,9 @@ def event_room_message(bot, (message, room, nick)):
   if typ == 'groupchat' and text:
     if 'caps_kick' in bot.get_config(room, 'options'):
       check_caps_kick(bot, room, nick, text)
-    check_bad_words_kick(bot, room, nick, text, 'Watch your language.')
-    check_long_text_kick(bot, room, nick, text)
+    if 'badwords_kick' in bot.get_config(room, 'options'):
+      check_bad_words_kick(bot, room, nick, text, 'Watch your language.')
+      check_long_text_kick(bot, room, nick, text)
 
   check_flood_control(bot, room, nick, text, typ)
 
@@ -108,5 +110,5 @@ def unload(bot):
   bot.timed_events.remove(flood_timer)
 
 def info(bot):
-  return 'User limits plugin v1.0'
+  return 'User limits plugin v1.0.1'
   
