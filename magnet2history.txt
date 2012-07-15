@@ -1,3 +1,8 @@
+Magnet 2.0.4 [15 Jul 2012]
+- Added tellfruit command in Simple Fun plugin
+- Added badwords_kick in options (User Limits plugin)
+- Added source command in the core
+
 Magnet 2.0.3 [20 Mar 2012]
 - Seen plugin: added seenjid command
 - Small fix if room nick is busy on join

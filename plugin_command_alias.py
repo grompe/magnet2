@@ -43,7 +43,7 @@ def command_alias(bot, room, nick, access_level, parameters, message):
   updating = new_command in bot.aliases[room]
     
   bot.aliases[room][new_command] = (call_command, call_parameters)
-  return "Alias %s %s"%(new_command, ('added', 'updated')[updating])
+  return "Alias %s %s."%(new_command, ('added', 'updated')[updating])
 
 def command_aliases(bot, room, nick, access_level, parameters, message):
   if not room in bot.aliases or len(bot.aliases[room]) == 0:

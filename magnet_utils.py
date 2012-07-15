@@ -56,7 +56,7 @@ def hasbadwords(text):
   badwords = ['bitch', 'fuck', 'asshole', 'shit', 'cunt', 'whore', 'slut',
     'cocksuck', 'f*ck', 'b*tch', 'sh*t', 'sh!t', 'faggot', 'whor3',
     'b!tch', 'phuck', 'sh1t', 'nigger', 'wank', 'goddamn', 'dickhead',
-    'bollocks', 'bastard', 'my dick', 'dafuq']
+    'bollocks', 'bastard', 'my dick', 'dafuq', 'biatch']
   
   textl = text.replace(u'\xad', '').lower()
   for word in badwords:

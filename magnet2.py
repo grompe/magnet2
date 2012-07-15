@@ -51,7 +51,7 @@ access_level_string = {
 class Magnet2Bot(object):
 
   def __init__(self, configuration):
-    self.version = '2.0.3'
+    self.version = '2.0.4'
     self.platform = configuration.get('hide_platform', False) and 'Unknown' or platform.platform()
     self.timed_events = TimedEvent()
     self.roster = {}
@@ -99,6 +99,7 @@ class Magnet2Bot(object):
     self.add_command('options', self.command_options, LEVEL_ADMIN)
     self.add_command('access', self.command_access, LEVEL_GUEST)
     self.add_command('list', self.command_list, LEVEL_GUEST)
+    self.add_command('source', self.command_source, LEVEL_GUEST)
 
     jid = xmpp.JID(self.configuration['jid'])
     self.client = xmpp.Client(jid.getDomain(), debug=[]) #'socket'
@@ -618,6 +619,9 @@ class Magnet2Bot(object):
     output = 'Available commands for %s: %s.'%(access_level_string[access_level], ', '.join(cando))
     self.send_room_message('%s/%s'%(room, nick), output)
     return ''
+
+  def command_source(self, room, nick, access_level, parameters, message):
+    return '/me is Magnet2 bot v%s written by Grom PE and released as open source at: https://github.com/grompe/magnet2'%(self.version)
 
   def shutdown(self, quit_message="Owner said goodbye!"):
     if self.shutting_down: return

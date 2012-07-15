@@ -19,7 +19,12 @@ Todo
 - !version [target] showing user client version
 - pisg-like stats!
   Count online record too, total number of messages, actions, commands,
-  show time when the record started, time spent in the chat, etc
+  show time when the record started, time spent in the chat, kick count, etc
+- option to split logs by date
+- check messages to be well-formed before sending
+- handle ping IQ errors (remote-server-not-found, etc)
+- find out why @jabber.org and @gmail.com accounts don't work for the bot
+- change status to "One of my body parts seems missing..." if plugin crashed?
 
 
 More ideas and suggestions
@@ -29,6 +34,7 @@ More ideas and suggestions
 - extend matchreply
   - matchkick to kick on regexp message match
   - (maybe) matchcounter to increment a counter then do action on counter limit
+  - or even execute a command
 - maybe don't tell about added autokick if akicked was in the room,
   same for added automod
 - !tell, !untell
@@ -58,3 +64,8 @@ More ideas and suggestions
 
 - add jid or nick or regexp to watch list (assign ID to it and remove by ID)
   with a separate file for logging each watched item
+
+- if person (non-member) joins and immediately posts a link, kick
+
+- a command to predict when will a certain user appear.
+- It could use, say, 5 previous days joins/quits and tells how many hours till predicted appearance.

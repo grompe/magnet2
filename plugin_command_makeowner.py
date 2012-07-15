@@ -23,8 +23,7 @@ def command_makeowner(bot, room, nick, access_level, parameters, message):
   bot.client.send(iq_set_affiliation(room, nick, 'owner', 'Owned!'))
 
 def load(bot):
-  bot.add_command('makeowner', command_makeowner, LEVEL_GUEST, 'makeowner')
-  bot.log_warn('Makeowner plugin is made only for testing purposes, REMOVE IT IMMEDIATELY in production environments as it is a huge security circumvention.')
+  bot.add_command('makeowner', command_makeowner, LEVEL_BOT_OWNER, 'makeowner')
 
 def unload(bot):
   pass
