@@ -52,7 +52,7 @@ rndobjects = [
   "pickled pigs feet", "a trap door spider", "a stained glass window",
   "a bell tower", "string, wax, a bowling ball, and a tape measurer", "Twix",
   "a shoebox", "an ABIT motherboard", "a large yacht", "an LCD screen",
-  "plains, trains, and automobiles", "a campfire", "peanut butter and syrup",
+  "planes, trains, and automobiles", "a campfire", "peanut butter and syrup",
   "melted chocolate", "a crowbar", "a satellite dish", "a sheet of drywall",
   "a ceiling fan blade", "a broken tennis racquet", "2 pair of water skis",
   "a 38 inch tire", "a smoke alarm", "a plastic fly", "a Pepsi cap",
@@ -185,7 +185,7 @@ def command_transform(bot, room, nick, access_level, parameters, message):
   else: target = random.choice(rndobjects)
   if bot.self_nick[room].lower() in target.lower():
     target = nick
-  return '/me picks %s up and transforms into %s'%(target, random.choice(rndobjects))
+  return '/me transforms %s into %s'%(target, random.choice(rndobjects))
 
 def command_status(bot, room, nick, access_level, parameters, message):
   if parameters:
@@ -291,4 +291,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Simple fun plugin v1.0.2'
+  return 'Simple fun plugin v1.0.3'
