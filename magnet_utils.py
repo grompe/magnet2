@@ -73,6 +73,7 @@ def unhtml(content):
   return content.replace('&amp;', '&')
 
 def timeformat(s):
+  s = s//1 # Rounding
   days = s//86400
   s -= days*86400
   hours = s//3600

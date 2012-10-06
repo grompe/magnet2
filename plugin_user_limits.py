@@ -38,7 +38,7 @@ def check_flood_control(bot, room, nick, text, typ):
     elif len(text) < 6: fc += 1
     elif len(text) < 4: fc += 2
     elif len(text) < 2: fc += 3
-  reason = 'No flooding! Write your sentences in less posts.'
+  reason = 'No flooding! Write your sentences in fewer posts.'
   if typ != 'groupchat':
     reason = 'No PM flooding the bot!'
   fclimit = 8
@@ -110,5 +110,5 @@ def unload(bot):
   bot.timed_events.remove(flood_timer)
 
 def info(bot):
-  return 'User limits plugin v1.0.1'
+  return 'User limits plugin v1.0.2'
   

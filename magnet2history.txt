@@ -1,3 +1,8 @@
+Magnet 2.0.x [?? Aug 2012]
+- magnet_utils.py: rounding in timeformat()
+- Simple Fun grammar fixes
+- User Limits grammar fixes
+
 Magnet 2.0.4 [15 Jul 2012]
 - Added tellfruit command in Simple Fun plugin
 - Added badwords_kick in options (User Limits plugin)
