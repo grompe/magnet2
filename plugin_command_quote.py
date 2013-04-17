@@ -59,7 +59,7 @@ def command_quote(bot, room, nick, access_level, parameters, message):
 
   existent_quote = getquote(bot, room, number)
   if not existent_quote:
-    return "There's no quote #%d, and there is total of %d quotes."%(number, len(quote_db[room]))
+    return "There's no quote #%d, and there are %d quotes."%(number, len(quote_db[room]))
 
   res = 'Quote #%d: %s'%(number, existent_quote['quote'])
   if message.getType() != 'groupchat' and access_level >= LEVEL_ADMIN:
@@ -116,4 +116,4 @@ def unload(bot):
   bot.save_database('quote', quote_db)
 
 def info(bot):
-  return 'Quote plugin v1.0.1'
+  return 'Quote plugin v1.0.2'
