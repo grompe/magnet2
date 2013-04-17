@@ -53,7 +53,7 @@ timebomb_timer = TimedEventHandler(timer_timebomb, 2)
 def event_nick_changed(bot, (presence, room, nick, newnick)):
   # bug/feature: reattaching the bomb to different person if original
   # has left and someone else changed their nick to timebombed person
-  if room in timebombed:
+  if room in timebombed and nick == timebombed[room]['nick']:
     timebombed[room]['nick'] = newnick
 
 def command_timebomb(bot, room, nick, access_level, parameters, message):
@@ -143,4 +143,4 @@ def unload(bot):
   bot.timed_events.remove(timebomb_timer)
   
 def info(bot):
-  return 'Timebomb plugin v1.0'
+  return 'Timebomb plugin v1.0.1'
