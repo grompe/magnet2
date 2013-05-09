@@ -72,7 +72,7 @@ def command_kick(bot, room, nick, access_level, parameters, message):
   if access_level < LEVEL_MODERATOR:
     if bot.roster[room][target][ROSTER_AFFILIATION] != 'none':
       return "Access denied."
-    add = 'Member has kicked non-member'
+    add = 'Requested by %s'%(nick)
     reason = reason and '%s (%s)'%(add, reason) or add
 
   if bot.roster[room][target][ROSTER_ROLE] == 'moderator':
@@ -136,4 +136,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Admin plugin v1.0'
+  return 'Admin plugin v1.0.1'
