@@ -73,7 +73,7 @@ def event_room_message(bot, (message, room, nick)):
       return
 
     yid = None
-    p = text.find('http://www.youtube.com/watch')
+    p = text.find('www.youtube.com/watch')
     if p != -1:
       p = text.find('v=', p)
       if p != -1:
@@ -97,4 +97,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Youtube plugin v1.0.1'
+  return 'Youtube plugin v1.0.2'
