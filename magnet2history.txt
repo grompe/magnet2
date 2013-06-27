@@ -1,10 +1,11 @@
-Magnet 2.0.x [?? May 2013]
+Magnet 2.0.x [?? Jun 2013]
 - magnet_utils.py: rounding in timeformat()
 - Simple Fun grammar fixes
 - User Limits grammar fixes
 - Timebomb is no more attached to whoever changes their nick during timebombing
 - Quote grammar fix
 - Now it is shown which member kicks non-member
+- Better Youtube link detection, fixed encoding error
 
 Magnet 2.0.4 [15 Jul 2012]
 - Added tellfruit command in Simple Fun plugin

@@ -30,12 +30,12 @@ def getyoutubeinfo(yid):
     else:
       return 'Error %s.'%(e.code)
 
-  rec = site.read()
+  rec = site.read().decode("utf-8")
   #writelog('_debug-youtube.txt', rec)
   site.close()
   p = rec.find("<title type='text'>")
   p2 = rec.find("</title>", p+19)
-  title = unhtml(rec[p+19:p2].decode("utf-8"))
+  title = unhtml(rec[p+19:p2])
 
   p = rec.find("<author><name>", p2)
   author = '???'
@@ -87,8 +87,8 @@ def event_room_message(bot, (message, room, nick)):
       try:
         res = "%s's YouTube link: %s"%(nick, getyoutubeinfo(yid))
         bot.send_room_message(target, res)
-      except:
-        pass
+      except Exception, e:
+        bot.log_warn('Error getting youtube video "%s" info: %s' % (yid, str(e)))
 
 def load(bot):
   pass
@@ -97,4 +97,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Youtube plugin v1.0.2'
+  return 'Youtube plugin v1.0.3'
