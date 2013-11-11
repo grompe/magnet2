@@ -21,11 +21,7 @@ from magnet_api import *
 from magnet_config import GOOGLE_KEY
 
 
-def googlesearch(query, num=0):
-  if 'safesearch' in bot.get_config(room, 'options'):
-    safe = "active"
-  else:
-    safe = "off"
+def googlesearch(query, num=0, safe="off"):
   url = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0%s&safe=%s&q=%s'%(
     GOOGLE_KEY,
     safe,
@@ -64,11 +60,7 @@ def googlecalc(query):
     return res
   return 'Something bad happened.'
 
-def googleimagesearch(query):
-  if 'safesearch' in bot.get_config(room, 'options'):
-    safe = "active"
-  else:
-    safe = "off"
+def googleimagesearch(query, safe="off"):
   url = 'http://ajax.googleapis.com/ajax/services/search/images?v=1.0%s&safe=%s&q=%s'%(
     GOOGLE_KEY,
     safe,
@@ -84,13 +76,21 @@ def googleimagesearch(query):
 
 def command_google(bot, room, nick, access_level, parameters, message):
   if not parameters: return 'Query expected.'
-  try: res = googlesearch(parameters)
+  if 'safesearch' in bot.get_config(room, 'options'):
+    safe = "active"
+  else:
+    safe = "off"
+  try: res = googlesearch(parameters, 0, safe)
   except: res = 'An error occured.'
   return res
 
 def command_image(bot, room, nick, access_level, parameters, message):
   if not parameters: return 'Query expected.'
-  try: res = googleimagesearch(parameters)
+  if 'safesearch' in bot.get_config(room, 'options'):
+    safe = "active"
+  else:
+    safe = "off"
+  try: res = googleimagesearch(parameters, safe)
   except: res = 'An error occured.'
   return res
 
@@ -140,4 +140,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Google plugin v1.0.2'
+  return 'Google plugin v1.0.3'
