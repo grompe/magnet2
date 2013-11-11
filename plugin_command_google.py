@@ -22,8 +22,13 @@ from magnet_config import GOOGLE_KEY
 
 
 def googlesearch(query, num=0):
-  url = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0%s&safe=active&q=%s'%(
+  if 'safesearch' in bot.get_config(room, 'options'):
+    safe = "active"
+  else:
+    safe = "off"
+  url = 'http://ajax.googleapis.com/ajax/services/search/web?v=1.0%s&safe=%s&q=%s'%(
     GOOGLE_KEY,
+    safe,
     urllib.quote_plus(query.encode('utf-8'))
   )
   rec = urllib2.urlopen(url)
@@ -60,8 +65,13 @@ def googlecalc(query):
   return 'Something bad happened.'
 
 def googleimagesearch(query):
-  url = 'http://ajax.googleapis.com/ajax/services/search/images?v=1.0%s&safe=active&q=%s'%(
+  if 'safesearch' in bot.get_config(room, 'options'):
+    safe = "active"
+  else:
+    safe = "off"
+  url = 'http://ajax.googleapis.com/ajax/services/search/images?v=1.0%s&safe=%s&q=%s'%(
     GOOGLE_KEY,
+    safe,
     urllib.quote_plus(query.encode('utf-8'))
   )
   rec = urllib2.urlopen(url)
@@ -130,5 +140,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Google plugin v1.0.1'
-  
+  return 'Google plugin v1.0.2'
