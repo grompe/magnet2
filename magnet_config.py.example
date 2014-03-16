@@ -9,6 +9,7 @@ GOOGLE_KEY = '' #'&key=ABCDEF'
 
 configuration1 = {
   'jid': 'magnet@localhost/Bot',
+  'server': None, # ('1.2.3.4', 5222), # leave None to autodetect
   'password': 'ABCDEF',
   'avatar_hash': '', # sha1 of image
   'log_level': 3, # 1 = error, 2 = warn, 3 = info, 4 = debug

@@ -51,7 +51,7 @@ access_level_string = {
 class Magnet2Bot(object):
 
   def __init__(self, configuration):
-    self.version = '2.0.4'
+    self.version = '2.0.5'
     self.platform = configuration.get('hide_platform', False) and 'Unknown' or platform.platform()
     self.timed_events = TimedEvent()
     self.roster = {}
@@ -102,8 +102,12 @@ class Magnet2Bot(object):
     self.add_command('source', self.command_source, LEVEL_GUEST)
 
     jid = xmpp.JID(self.configuration['jid'])
+    server = self.configuration['server']
+    use_srv = False
+    if not server:
+      use_srv = True
     self.client = xmpp.Client(jid.getDomain(), debug=[]) #'socket'
-    if not self.client.connect():
+    if not self.client.connect(server=server, use_srv=use_srv):
       self.log_error('Could not connect to the server.')
       return
     self.auth_success = True

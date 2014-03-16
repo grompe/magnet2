@@ -1,4 +1,4 @@
-Magnet 2.0.x [?? Nov 2013]
+Magnet 2.0.5 [16 Mar 2014]
 - magnet_utils.py: rounding in timeformat()
 - Simple Fun grammar fixes
 - User Limits grammar fixes
@@ -7,6 +7,7 @@ Magnet 2.0.x [?? Nov 2013]
 - Now it is shown which member kicks non-member
 - Better Youtube link detection, fixed encoding error
 - Google plugin new option: safesearch
+- A way to set server IP/port to connect
 
 Magnet 2.0.4 [15 Jul 2012]
 - Added tellfruit command in Simple Fun plugin
