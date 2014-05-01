@@ -63,9 +63,11 @@ def load(bot):
   bot.add_command('aliases', command_aliases, LEVEL_ADMIN)
   bot.add_command('delalias', command_delalias, LEVEL_ADMIN)
 
-def unload(bot):
+def save(bot):
   bot.save_database('aliases', bot.aliases)
+
+def unload(bot):
   del bot.aliases
 
 def info(bot):
-  return 'Alias plugin v1.0'
+  return 'Alias plugin v1.0.1'

@@ -51,7 +51,7 @@ access_level_string = {
 class Magnet2Bot(object):
 
   def __init__(self, configuration):
-    self.version = '2.0.5'
+    self.version = '2.0.6'
     self.platform = configuration.get('hide_platform', False) and 'Unknown' or platform.platform()
     self.timed_events = TimedEvent()
     self.roster = {}
@@ -120,6 +120,9 @@ class Magnet2Bot(object):
 
     self.keepalive_timer = TimedEventHandler(self.timer_keepalive, 600)
     self.timed_events.add(self.keepalive_timer)
+    self.savedata_timer = TimedEventHandler(self.timer_savedata, 3600)
+    self.timed_events.add(self.savedata_timer)
+    self.save_ignore_first = True
 
   def run(self):
     if self.auth_success:
@@ -141,6 +144,17 @@ class Magnet2Bot(object):
 
   def timer_keepalive(self, sender, arg):
     self.client.send(' ')
+
+  def timer_savedata(self, sender, arg):
+    if self.save_ignore_first:
+      self.save_ignore_first = False
+      return
+    self.log_debug('Saving data...')
+    for plugin in self.plugins.values():
+      if hasattr(plugin, 'save'):
+        plugin.save(self)
+        pass
+    self.log_debug('Saved.')
 
   def load_plugins(self):
     for plugin in self.configuration['plugins']:
@@ -178,7 +192,10 @@ class Magnet2Bot(object):
 
   def unload_plugin(self, plugin):
     p = self.plugins[plugin]
-    p.unload(self)
+    if hasattr(p, 'save'):
+      p.save(self)
+    if hasattr(p, 'unload'):
+      p.unload(self)
     for x in dir(p):
       if x[:6] == 'event_':
         self.__getattribute__(x).remove(p.__getattribute__(x))

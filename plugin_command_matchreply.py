@@ -121,8 +121,11 @@ def load(bot):
   bot.add_command('addmatchreply', command_addmatchreply, LEVEL_ADMIN)
   bot.add_command('delmatchreply', command_delmatchreply, LEVEL_ADMIN)
 
-def unload(bot):
+def save(bot):
   bot.save_database('matchreply', matchreply_db)
 
+def unload(bot):
+  pass
+
 def info(bot):
-  return 'Matchreply plugin v1.0'
+  return 'Matchreply plugin v1.0.1'

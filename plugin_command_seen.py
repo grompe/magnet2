@@ -186,8 +186,11 @@ def load(bot):
   bot.add_command('seen', command_seen, LEVEL_GUEST, 'seen')
   bot.add_command('seenjid', command_seenjid, LEVEL_ADMIN, 'seenjid')
 
-def unload(bot):
+def save(bot):
   bot.save_database('seen', seen_db)
 
+def unload(bot):
+  pass
+
 def info(bot):
-  return 'Seen plugin v1.0.6'
+  return 'Seen plugin v1.0.7'

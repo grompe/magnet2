@@ -112,8 +112,11 @@ def load(bot):
   bot.add_command('addquote', command_addquote, LEVEL_MEMBER, 'quote')
   bot.add_command('delquote', command_delquote, LEVEL_MEMBER, 'quote')
 
-def unload(bot):
+def save(bot):
   bot.save_database('quote', quote_db)
 
+def unload(bot):
+  pass
+
 def info(bot):
-  return 'Quote plugin v1.0.2'
+  return 'Quote plugin v1.0.3'

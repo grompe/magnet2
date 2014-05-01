@@ -170,8 +170,11 @@ def load(bot):
   bot.add_command('remember', command_remember, LEVEL_MEMBER)
   bot.add_command('forget', command_forget, LEVEL_MEMBER)
 
-def unload(bot):
+def save(bot):
   bot.save_database('knowledge', knowledge_db)
 
+def unload(bot):
+  pass
+
 def info(bot):
-  return 'Knowledge plugin v1.0.1'
+  return 'Knowledge plugin v1.0.2'

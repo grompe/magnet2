@@ -79,8 +79,11 @@ def load(bot):
   bot.add_command('unignore', command_unignore, LEVEL_ADMIN)
   bot.add_command('ignored', command_ignored, LEVEL_ADMIN)
 
-def unload(bot):
+def save(bot):
   bot.save_database('ignore', bot.ignore_db)
 
+def unload(bot):
+  pass
+
 def info(bot):
-  return 'Ignore plugin v1.0'
+  return 'Ignore plugin v1.0.1'

@@ -154,9 +154,11 @@ def load(bot):
   bot.add_command('delmod', command_delmod, LEVEL_ADMIN)
   bot.add_command('mods', command_mods, LEVEL_ADMIN)
 
-def unload(bot):
+def save(bot):
   bot.save_database('automod', automod_db)
+
+def unload(bot):
   pass
 
 def info(bot):
-  return 'Addmod plugin v1.0'
+  return 'Addmod plugin v1.0.1'

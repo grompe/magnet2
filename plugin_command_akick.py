@@ -112,8 +112,11 @@ def load(bot):
   bot.add_command('delakick', command_delakick, LEVEL_ADMIN)
   bot.add_command('akicked', command_akicked, LEVEL_ADMIN)
 
-def unload(bot):
+def save(bot):
   bot.save_database('akick', akick_db)
 
+def unload(bot):
+  pass
+
 def info(bot):
-  return 'Autokick plugin v1.0'
+  return 'Autokick plugin v1.0.1'
