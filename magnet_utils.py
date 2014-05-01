@@ -40,11 +40,17 @@ def iq_set_role(room, nick, role, reason=None):
   return iq
 
 def serialize(fname, data):
-  return cPickle.dump(data, open(fname, 'wb'), 2)
+  f = open(fname, 'wb')
+  result = cPickle.dump(data, f, 2)
+  f.close()
+  return result
 
 def unserialize(fname):
   if not os.path.exists(fname): return False
-  return cPickle.load(open(fname, 'rb'))
+  f = open(fname, 'rb')
+  result = cPickle.load(f)
+  f.close()
+  return result
 
 def writelog(filename, text):
   s = '[%s] %s\n'%(time.strftime('%d %b %Y %H:%M:%S'), text)
