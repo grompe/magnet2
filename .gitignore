@@ -9,7 +9,6 @@ xmpp_/
 backups_old/
 magnet1_data/
 magnet_config.py
-plugin_room_*.py
 plugin_special_*.py
 test.py
 magnet2.txt
