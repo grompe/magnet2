@@ -2,10 +2,21 @@ import re
 import time
 import thread
 import urllib2
+import random
 
 if __name__ != "__main__":
   from magnet_api import *
   from magnet_utils import *
+
+try:
+  try:
+    from bs4 import BeautifulSoup
+    soup_version = 4
+  except ImportError:
+    from BeautifulSoup import BeautifulSoup
+    soup_version = 3
+except ImportError:
+  soup_version = None
 
 # Known bugs:
 # - when consecutive posts made within check period so that the last post
@@ -30,6 +41,58 @@ available_forums = set(["general", "suggestions", "bugs", "artroom", "friendgame
 forum_url = "http://drawception.com/forums/"
 subforum_url = "http://drawception.com/forums/%s/"
 last_page_url = "http://drawception.com/forums/%s/%s/-/?page=9999"
+
+
+random_things = ['hobo', 'shoe', 'log', 'bun', 'sandwich', 'bull', 'beer', 'hair',
+  'hill', 'beans', 'man', 'sofa', 'dinosaur', 'road', 'plank', 'hole', 'food',
+  'hedgehog', 'pine', 'toad', 'tooth', 'candy', 'rock', 'drop', 'book', 'button', 'carpet',
+  'wheel', 'computer', 'box', 'cat', 'rat', 'hook', 'chunk', 'boat', 'spade', 'sack',
+  'hammer', 'face', 'soap', 'nose', 'finger', 'steam', 'spring', 'hand', 'fish',
+  'elephant', 'dog', 'chair', 'bag', 'phone', 'robot', 'axe', 'grass', 'crack', 'teacher',
+  'breadcrumb', 'fridge', 'worm', 'nut', 'cloth', 'apple', 'tongue', 'jar'];
+random_acts = ['crazy from', 'thanks', 'hits', 'lies around on', 'sees', 'grows in',
+  'attaches to', 'flies from', 'crawls from', 'chews', 'walks on', 'squishes', 'pecks',
+  'wobbles in', 'smokes from', 'smokes', 'rides', 'eats', 'squeals from under',
+  'is lost in', 'spins in', 'stuck in', 'hooks', 'angry at', 'bends', 'drips on',
+  'rolls on', 'digs', 'crawls in', 'flies at', 'massages', 'dreams of', 'kills', 'pulls',
+  "doesn't want", 'licks', 'shoots', 'falls off', 'falls in', 'crawls on', 'turns into',
+  'stuck to', 'jumps on', 'hides', 'hides in', 'disassembles', 'rips', 'dissolves',
+  'stretches', 'crushes', 'pushes', 'drowns in', 'pokes', 'runs away from', 'wants',
+  'scratches', 'throws', 'and', 'confused by', 'unimpressed by'];
+random_descs = ['white', 'concrete', 'shiny', 'ill', 'big', 'ex', 'fast', 'happy',
+  'inside-out', 'hot', 'burning', 'thick', 'wooden', 'long', 'good', 'tattered', 'iron',
+  'liquid', 'frozen', 'green', 'evil', 'bent', 'rough', 'pretty', 'red', 'round',
+  'shaggy', 'bald', 'slow', 'wet', 'wrinkly', 'meaty', 'impudent', 'real', 'distraught',
+  'sharp', 'plastic', 'gift', 'squished', 'chubby', 'crumbling', 'horned', 'angry',
+  'sitting', 'stranded', 'dry', 'hard', 'thin', 'killer', 'walking', 'cold', 'wheezing',
+  'grunting', 'chirping', 'wide', 'electric', 'nuclear', 'confused', 'unimpressed'];
+
+random_draw = ['Draw', 'Paint', 'Scribble', 'Doodle', 'Make', 'Throw together', 'Sketch']
+
+def command_draw(bot, room, nick, access_level, parameters, message):
+  r = random.randint(1, 3)
+  if r == 1:
+    ch = [
+      random.choice(random_descs),
+      random.choice(random_things),
+    ]
+  elif r == 2:
+    ch = [
+      random.choice(random_descs),
+      random.choice(random_things),
+      random.choice(random_acts),
+      random.choice(random_things),
+    ]
+  else:
+    ch = [
+      random.choice(random_descs),
+      random.choice(random_things),
+      random.choice(random_acts),
+      random.choice(random_descs),
+      random.choice(random_things),
+    ]
+  return "%s this: %s" % (random.choice(random_draw), ' '.join(ch))
+
 
 def gethtml(url, ignore_errors=False):
   opener = urllib2.build_opener()
@@ -96,20 +159,21 @@ def check_thread(forum, threadid, lastpostid, timestamp):
   newposts = [x for x in l if int(x) > lastpostid]
   # Actual notification
   title = re.search('<title>(.+?)</title>', html).group(1)
-  brief = False
-  if brief:
+  if not soup_version:
     new_message('New %s post(s) in %s forum thread "%s"' % (len(newposts), forum, title))
   else:
-    from BeautifulSoup import BeautifulSoup
-    bs = BeautifulSoup(html)
+    if soup_version == 4:
+      bs = BeautifulSoup(html)
+    else:
+      bs = BeautifulSoup(html, convertEntities=BeautifulSoup.HTML_ENTITIES)
     for newpost in newposts:
       post = bs.find("div", {"id": "p%s" % newpost})
       username = post.find("div", {"class": "comment-user"}).find("a").getText()
-      text = post.find("div", {"class": "comment-body"}).getText(" ")
-      if len(text) > 200: text = text[:200] + "[...]"
+      text = post.find("div", {"class": "comment-body"}).getText(" ").strip("\n")
+      if len(text) > 200: text = text[:195] + "[...]"
       page = int(timestamp) / 20 + 1 # "timestamp" is actually post count
       link = url.replace("?page=9999", "" if page == 1 else "?page=%d" % page)
-      new_message('@%s writes in "%s" (%s ):\n%s' % (username, title, link, text))
+      new_message('@%s posts in "%s" ( %s#p%s ):\n%s' % (username, title, link, newpost, text))
 
 def check_thread_begin_watch(forum, threadid):
   url = last_page_url % (forum, threadid)
@@ -187,6 +251,7 @@ def load(bot):
   watched_threads = bot.load_database('dcforum') or {}
   bot.add_command('watch', command_watch, LEVEL_MEMBER)
   bot.add_command('unwatch', command_unwatch, LEVEL_MEMBER)
+  bot.add_command('draw', command_draw, LEVEL_GUEST)
   checkforum_timer = TimedEventHandler(timer_checkforum, 240)
   bot.timed_events.add(checkforum_timer)
 
@@ -197,7 +262,7 @@ def unload(bot):
   bot.timed_events.remove(checkforum_timer)
 
 def info(bot):
-  return 'Drawception forum watch plugin v1.0.2'
+  return 'Drawception forum watch plugin v1.0.3'
 
 if __name__ == "__main__":
 
