@@ -248,7 +248,6 @@ def load(bot):
   bot.add_command('transform', command_transform, LEVEL_GUEST, 'simple_fun')
   bot.add_command('status', command_status, LEVEL_GUEST, 'status')
   bot.add_command('tellfruit', command_tellfruit, LEVEL_GUEST, 'status')
-  bot.add_command('flip', command_flip, LEVEL_GUEST, 'flip')
   bot.add_command('say', command_say, LEVEL_ADMIN, 'say')
   bot.add_command('act', command_act, LEVEL_ADMIN, 'say')
 
