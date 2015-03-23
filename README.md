@@ -33,7 +33,7 @@ Currently there is no mechanism to add MUC on-the-fly, so every one is configure
        'commands_pm_only': ['image'],
        'commands_disabled': [],
      },
-     
+
 where `options` is a list of allowed commands. This list has to be present in the config, everything else is optional. So if you want to add a command, you enable a plugin and then add this command to `options` list.
 
 Use `commands_pm_only` option for setting per-room PM only commands.
