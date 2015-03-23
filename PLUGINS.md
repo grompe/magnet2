@@ -1,6 +1,6 @@
 Plugins/command list
 ====================
-Core: 
+Core:
 
 * quit
 * setnick
@@ -20,12 +20,14 @@ Simple fun:
 * stab
 * hug
 * status
-* roll - roll an RPG dice: !roll d62+3, !rolld76+-3
-* flip
 * say - bot says something
 * act - bot acts something via /me command
 * glomp
 * transform - bot transforms %username% into a random thing
+
+RPG:
+* roll - roll an RPG dice: `!roll d62+3`, `!rolld76+-3`
+* flip - flip a coin (heads or tails)
 
 Google:
 
@@ -53,7 +55,7 @@ Logger:
 * logging
 * PM log
 
-Admin: 
+Admin:
 
 * kick
 * ban
@@ -95,7 +97,7 @@ Quote:
 * delquote
 * addquote
 
-Seen: 
+Seen:
 
 * seen - writes how long ago the bot has seen someone here
 

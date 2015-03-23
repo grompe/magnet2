@@ -64,6 +64,7 @@ configuration1 = {
     'youtube',
     'user_limits',
     'command_simple_fun',
+    'command_rpg',
     'command_google',
     'command_ping',
     'command_alias',
