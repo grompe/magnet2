@@ -16,12 +16,13 @@
 #  along with Magnet2.  If not, see <http://www.gnu.org/licenses/>.
 #
 import urllib2
+import urlparse
 from magnet_api import *
 from magnet_utils import *
 
 def getyoutubeinfo(yid):
   try:
-    site = urllib2.urlopen('http://gdata.youtube.com/feeds/api/videos/'+yid)
+    site = urllib2.urlopen('http://www.youtube.com/get_video_info?video_id='+yid)
   except urllib2.HTTPError, e:
     if e.code == 404:
       return 'The video is not available or is being processed.'
@@ -30,33 +31,17 @@ def getyoutubeinfo(yid):
     else:
       return 'Error %s.'%(e.code)
 
-  rec = site.read().decode("utf-8")
-  #writelog('_debug-youtube.txt', rec)
+  rec = site.read()
   site.close()
-  p = rec.find("<title type='text'>")
-  p2 = rec.find("</title>", p+19)
-  title = unhtml(rec[p+19:p2])
+  res = urlparse.parse_qs(rec)
 
-  p = rec.find("<author><name>", p2)
-  author = '???'
-  if p != -1:
-    p2 = rec.find('<', p+14)
-    author = rec[p+14:p2]
+  title = res.get("title", ["???"])[0]
+  author = res.get("author", ["???"])[0]
+  duration = int(res.get("length_seconds", [-1])[0])
+  views = int(res.get("view_count", [-1])[0])
   
-  p = rec.find("<yt:duration seconds='", p2)
-  min = 0
-  sec = 0
-  if p != -1:
-    p2 = rec.find("'", p+22)
-    sec = int(rec[p+22:p2])
-    min = sec/60
-    sec = sec-min*60
-
-  p = rec.find("viewCount='", p2)
-  views = 0
-  if p != -1:
-    p2 = rec.find("'", p+11)
-    views = int(rec[p+11:p2])
+  min = duration / 60
+  sec = duration - min * 60
 
   return "%s [by %s, %02d:%02d, %d views]"%(title, author, min, sec, views)
 
@@ -97,4 +82,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Youtube plugin v1.0.3'
+  return 'Youtube plugin v1.0.4'
