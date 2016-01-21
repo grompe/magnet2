@@ -3,11 +3,11 @@ Magnet2
 
 Python XMPP MUC entertainment, informational and administration bot
 
-Copyright (c) 2011-2015 Grom PE
+Made by Grom PE
 
 Additional documentation by Oreolek
 
-**License:** GPLv3
+Released as public domain.
 
 Programming language: Python 2
 
