@@ -208,7 +208,7 @@ def check_forum_mainpage():
   html = gethtml(forum_url, True)
   l = re.findall("forums/(\w+).+?last post (.+?)\)", html)
   if not l:
-    if html.find("<h1>There appears to be an error with this site.</h1>") != -1:
+    if html.find("<title>Pagoda Box</title>") != -1:
       site_is_down(True)
     return
   # Add to-be-watched threads to watched
