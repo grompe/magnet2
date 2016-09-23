@@ -31,16 +31,16 @@ really_down = False
 last_check_times = {}#{"general": "Sep 14th 4:00am"}
 
 # Format: thread_id: ("forum", last_post_id, timestamp)
-watched_threads = {}#19669: ("general", 484700, "-")}
+watched_threads = {}#29825: ("general", 484700, "-")}
 
 # Format: thread_id: "forum"
 threads_to_start_watching = {}
 
 available_forums = set(["general", "suggestions", "bugs", "artroom", "friendgames", "offtopic"])
 
-forum_url = "http://drawception.com/forums/"
-subforum_url = "http://drawception.com/forums/%s/"
-last_page_url = "http://drawception.com/forums/%s/%s/-/?page=9999"
+forum_url = "https://drawception.com/forums/"
+subforum_url = "https://drawception.com/forums/%s/"
+last_page_url = "https://drawception.com/forums/%s/%s/-/?page=9999"
 
 
 random_things = ['hobo', 'shoe', 'log', 'bun', 'sandwich', 'bull', 'beer', 'hair',
@@ -150,6 +150,7 @@ def remove_watch(url_or_text):
 
 def check_thread(forum, threadid, lastpostid, timestamp):
   url = last_page_url % (forum, threadid)
+  print("checking %s/%s"%(forum, threadid))
   html = gethtml(url)
   l = re.findall('div id="p(\d+)"', html)
   if not l: return
@@ -192,9 +193,9 @@ def check_subforum(checkforum):
   if not reallycheck: return # No watched threads in that subforum
   html = gethtml(subforum_url % checkforum)
   #timestamps = re.findall('<span class="muted">\(last post (.+?)\)', html)
-  timestamps = re.findall('(\d+) replies <span class="muted">', html)
+  timestamps = re.findall('(\d+) replies <span class="text-muted">', html)
   if not timestamps: return
-  threads = re.findall('<b><a href="/forums/\w+/(\d+)/', html)
+  threads = re.findall('<strong><a href="/forums/\w+/(\d+)/', html)
   if not threads: return
   for threadid, timestamp in zip(threads, timestamps):
     threadid = int(threadid)
