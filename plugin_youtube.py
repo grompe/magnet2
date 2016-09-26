@@ -6,7 +6,7 @@ from magnet_utils import *
 
 def getyoutubeinfo(yid):
   try:
-    site = urllib2.urlopen('http://www.youtube.com/get_video_info?video_id='+yid)
+    site = urllib2.urlopen('https://www.youtube.com/get_video_info?el=vevo&video_id='+yid)
   except urllib2.HTTPError, e:
     if e.code == 404:
       return 'The video is not available or is being processed.'
@@ -19,6 +19,10 @@ def getyoutubeinfo(yid):
   site.close()
   res = urlparse.parse_qs(rec)
 
+  error_reason = res.get("reason")
+  if error_reason:
+    return "(%s)" % error_reason
+  
   title = res.get("title", ["???"])[0]
   author = res.get("author", ["???"])[0]
   duration = int(res.get("length_seconds", [-1])[0])
@@ -51,10 +55,14 @@ def event_room_message(bot, (message, room, nick)):
       p = text.find('http://youtu.be/')
       if p != -1:
         yid = text[p+16:p+16+11]
+    if not yid:
+      p = text.find('https://youtu.be/')
+      if p != -1:
+        yid = text[p+17:p+17+11]
 
     if yid and len(yid) == 11:
       try:
-        res = "%s's YouTube link: %s"%(nick, getyoutubeinfo(yid))
+        res = "%s's YouTube link: %s"%(nick.encode("utf-8"), getyoutubeinfo(yid))
         bot.send_room_message(target, res)
       except Exception, e:
         bot.log_warn('Error getting youtube video "%s" info: %s' % (yid, str(e)))
@@ -66,4 +74,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Youtube plugin v1.0.4'
+  return 'Youtube plugin v1.0.5'
