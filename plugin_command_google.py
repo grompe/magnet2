@@ -12,7 +12,11 @@ def googlesearch(query, num=0, safe="off"):
     urllib.quote_plus(query.encode('utf-8'))
   )
   rec = urllib2.urlopen(url)
-  js = json.loads(rec.read())
+  d = rec.read()
+  f = open("_google.tmp", "wb")
+  f.write(d)
+  f.close()
+  js = json.loads(d)
   results = js['responseData']['results']
   if len(results)>num:
     r = results[num]
@@ -28,21 +32,16 @@ def googlesearch(query, num=0, safe="off"):
     return 'Nothing found.'
 
 def googlecalc(query):
-  url = 'http://www.google.com/ig/calculator?hl=en&q=%s'%urllib.quote_plus(query.encode('utf-8'))
+  url = "https://www.google.com/complete/search?client=opera&q=" + urllib.quote_plus(query.encode('utf-8'))
   rec = urllib2.urlopen(url).read()
-  
-  r = re.match('{lhs: "(.*)",rhs: "(.*)",error: "(.*)"', rec)
-  if r:
-    if r.group(3):
-      res = 'error: '+r.group(3)
+  js = json.loads(rec)
+  if len(js) > 1 and len(js[1]) > 0:
+    if js[1][0].startswith("="):
+      return query + ' ' + js[1][0]
     else:
-      res = r.group(1)+' = '+r.group(2)
-    res = res.decode('unicode-escape')
-    res = res.replace('&#215;', unichr(215))
-    res = res.replace('<sup>', '^(')
-    res = res.replace('</sup>', ')')
-    return res
-  return 'Something bad happened.'
+      return js[1][0]
+  else:
+    return 'No results.'
 
 def googleimagesearch(query, safe="off"):
   url = 'http://ajax.googleapis.com/ajax/services/search/images?v=1.0%s&safe=%s&q=%s'%(
@@ -64,8 +63,13 @@ def command_google(bot, room, nick, access_level, parameters, message):
     safe = "active"
   else:
     safe = "off"
-  try: res = googlesearch(parameters, 0, safe)
-  except: res = 'An error occured.'
+  try:
+    res = googlesearch(parameters, 0, safe)
+  except:
+    import traceback
+    res = 'An error occured.'
+    bot.log_warn('Error searching google:\n%s' % traceback.format_exc())
+
   return res
 
 def command_image(bot, room, nick, access_level, parameters, message):
@@ -79,7 +83,7 @@ def command_image(bot, room, nick, access_level, parameters, message):
   return res
 
 def command_calc(bot, room, nick, access_level, parameters, message):
-  if not parameters: return 'Expression expected.'
+  if not parameters: return 'Expression or query expected.'
   try: res = googlecalc(parameters)
   except: res = 'An error occured.'
   return res
@@ -124,4 +128,4 @@ def unload(bot):
   pass
 
 def info(bot):
-  return 'Google plugin v1.0.3'
+  return 'Google plugin v1.0.4'
