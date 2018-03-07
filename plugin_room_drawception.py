@@ -172,7 +172,10 @@ def check_thread(forum, threadid, lastpostid, timestamp):
       username = post.find("div", {"class": "comment-user"}).find("a").getText()
       text = post.find("div", {"class": "comment-body"}).getText(" ").strip("\n")
       if len(text) > 200: text = text[:195] + "[...]"
-      page = int(timestamp) / 20 + 1 # "timestamp" is actually post count
+      page = 1
+      pagination = bs.find("ul", {"class": "pagination"})
+      if pagination:
+        page = int(pagination.find("li", {"class": "active"}).find("a").getText())
       link = url.replace("?page=9999", "" if page == 1 else "?page=%d" % page)
       new_message('@%s posts in "%s" ( %s#p%s ):\n%s' % (username, title, link, newpost, text))
 
